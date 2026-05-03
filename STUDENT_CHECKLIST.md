@@ -202,12 +202,23 @@ Open/closed visitor decision:
 
 ## Phase 4: Implement the Memento Boundary
 
-- [ ] Verify `HeroMemento.java` keeps its getters package-private
-- [ ] Verify `HeroMemento` has no public mutable fields
-- [ ] Add the hero fields that belong in the snapshot
-- [ ] Implement `Hero.createMemento()`
-- [ ] Implement `Hero.restoreFromMemento(HeroMemento)`
-- [ ] Keep `Caretaker` in a different package from `HeroMemento`
+- [x] Verify `HeroMemento.java` keeps its getters package-private
+- [x] Verify `HeroMemento` has no public mutable fields
+- [x] Add the hero fields that belong in the snapshot
+- [x] Implement `Hero.createMemento()`
+- [x] Implement `Hero.restoreFromMemento(HeroMemento)`
+- [x] Keep `Caretaker` in a different package from `HeroMemento`
+
+### Phase 4 Notes
+
+- `HeroMemento` stores snapshot data in private final fields.
+- Its constructor and getters are package-private, so `Hero` can use them but
+  `Caretaker` cannot inspect the saved state from another package.
+- The snapshot includes `hp`, `mana`, `gold`, inventory contents, and the
+  scaffold's identity/combat context fields.
+- `Hero.createMemento()` captures the current hero state.
+- `Hero.restoreFromMemento(HeroMemento)` restores mutable hero state from that
+  snapshot and rebuilds the inventory from the saved artifact list.
 
 ---
 

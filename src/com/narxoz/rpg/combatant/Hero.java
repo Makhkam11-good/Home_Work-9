@@ -150,13 +150,20 @@ public class Hero {
     }
 
     /**
-     * Creates a memento placeholder for the hero's current state.
+     * Creates a memento for the hero's current state.
      *
-     * @return a HeroMemento snapshot, or null in the scaffold
+     * @return a HeroMemento snapshot
      */
     public HeroMemento createMemento() {
-        // TODO: capture the full mutable state into a HeroMemento.
-        return null;
+        return new HeroMemento(
+                name,
+                hp,
+                mana,
+                gold,
+                maxHp,
+                attackPower,
+                defense,
+                inventory.getArtifacts());
     }
 
     /**
@@ -165,7 +172,14 @@ public class Hero {
      * @param memento the snapshot to restore from
      */
     public void restoreFromMemento(HeroMemento memento) {
-        // TODO: read the snapshot and restore the hero's mutable state.
+        if (memento == null) {
+            return;
+        }
+
+        hp = memento.getHp();
+        mana = memento.getMana();
+        gold = memento.getGold();
+        inventory = new Inventory(memento.getInventorySnapshot());
     }
 
     @Override
