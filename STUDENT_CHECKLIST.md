@@ -32,26 +32,171 @@ visitors.
 
 ## Phase 2: Design on Paper First
 
-- [ ] Sketch a class diagram showing `ArtifactVisitor` and the artifact hierarchy
-- [ ] Sketch a class diagram showing `Hero`, `HeroMemento`, and `Caretaker`
-- [ ] Decide what each of your first 3 visitors will compute or print
-- [ ] Decide what hero state will be saved in the memento
-- [ ] Decide what event will trigger the rewind in the demo
-- [ ] Decide what your 4th visitor will prove for open/closed behavior
+- [x] Sketch a class diagram showing `ArtifactVisitor` and the artifact hierarchy
+- [x] Sketch a class diagram showing `Hero`, `HeroMemento`, and `Caretaker`
+- [x] Decide what each of your first 3 visitors will compute or print
+- [x] Decide what hero state will be saved in the memento
+- [x] Decide what event will trigger the rewind in the demo
+- [x] Decide what your 4th visitor will prove for open/closed behavior
+
+### Phase 2 Notes
+
+Visitor sketch:
+
+```mermaid
+classDiagram
+    class ArtifactVisitor {
+        <<interface>>
+        +visit(Weapon weapon)
+        +visit(Potion potion)
+        +visit(Scroll scroll)
+        +visit(Ring ring)
+        +visit(Armor armor)
+    }
+
+    class Artifact {
+        <<abstract>>
+        -String name
+        -int value
+        -int weight
+        +accept(ArtifactVisitor visitor)*
+    }
+
+    class Weapon {
+        -int attackBonus
+        +accept(ArtifactVisitor visitor)
+    }
+
+    class Potion {
+        -int healing
+        +accept(ArtifactVisitor visitor)
+    }
+
+    class Scroll {
+        -String spellName
+        +accept(ArtifactVisitor visitor)
+    }
+
+    class Ring {
+        -int magicBonus
+        +accept(ArtifactVisitor visitor)
+    }
+
+    class Armor {
+        -int defenseBonus
+        +accept(ArtifactVisitor visitor)
+    }
+
+    class Inventory {
+        -List~Artifact~ artifacts
+        +accept(ArtifactVisitor visitor)
+    }
+
+    Artifact <|-- Weapon
+    Artifact <|-- Potion
+    Artifact <|-- Scroll
+    Artifact <|-- Ring
+    Artifact <|-- Armor
+    Inventory o-- Artifact
+    ArtifactVisitor ..> Weapon
+    ArtifactVisitor ..> Potion
+    ArtifactVisitor ..> Scroll
+    ArtifactVisitor ..> Ring
+    ArtifactVisitor ..> Armor
+```
+
+Memento sketch:
+
+```mermaid
+classDiagram
+    class Hero {
+        -String name
+        -int hp
+        -int mana
+        -int gold
+        -Inventory inventory
+        +createMemento() HeroMemento
+        +restoreFromMemento(HeroMemento memento)
+    }
+
+    class HeroMemento {
+        -String name
+        -int hp
+        -int mana
+        -int gold
+        -int maxHp
+        -int attackPower
+        -int defense
+        -List~Artifact~ inventorySnapshot
+    }
+
+    class Caretaker {
+        -Deque~HeroMemento~ history
+        +save(HeroMemento memento)
+        +undo() HeroMemento
+        +peek() HeroMemento
+        +size() int
+    }
+
+    class ChronomancerEngine {
+        +runVault(List~Hero~ party) VaultRunResult
+    }
+
+    Hero ..> HeroMemento : creates/restores
+    Caretaker o-- HeroMemento : stores opaque snapshots
+    ChronomancerEngine ..> Hero
+    ChronomancerEngine ..> Caretaker
+```
+
+First 3 visitor decisions:
+
+- `GoldAppraiser` estimates resale value and keeps a running total.
+- `EnchantmentScanner` prints magical properties based on each artifact type.
+- `CurseDetector` reports whether each artifact looks dangerous or safe.
+
+Memento state decision:
+
+- Save `hp`, `mana`, `gold`, and a snapshot of the hero inventory.
+- Keep immutable identity/combat fields in the memento too because the scaffold
+  already includes `name`, `maxHp`, `attackPower`, and `defense`.
+- `Hero` will be the only class that reads these values during restore.
+
+Rewind event decision:
+
+- The demo will save the lead hero before a time crystal trap.
+- The trap will damage the hero, spend mana, spend gold, and add a strange
+  vault artifact to the inventory.
+- The rewind will restore the saved state from the latest `HeroMemento`.
+
+Open/closed visitor decision:
+
+- Add `WeightCalculator` as the 4th visitor.
+- It will work through `Inventory.accept(visitor)` and prove that a new report
+  can be added without changing the artifact hierarchy.
 
 ---
 
 ## Phase 3: Implement the Visitor Skeleton
 
-- [ ] Create at least 3 concrete visitor classes in separate `.java` files
-- [ ] Verify each visitor implements all 5 `visit(...)` overloads
-- [ ] Verify each visitor produces visibly different output
-- [ ] Implement `accept(ArtifactVisitor visitor)` in `Weapon.java`
-- [ ] Implement `accept(ArtifactVisitor visitor)` in `Potion.java`
-- [ ] Implement `accept(ArtifactVisitor visitor)` in `Scroll.java`
-- [ ] Implement `accept(ArtifactVisitor visitor)` in `Ring.java`
-- [ ] Implement `accept(ArtifactVisitor visitor)` in `Armor.java`
-- [ ] Implement `Inventory.accept(visitor)` to walk the list
+- [x] Create at least 3 concrete visitor classes in separate `.java` files
+- [x] Verify each visitor implements all 5 `visit(...)` overloads
+- [x] Verify each visitor produces visibly different output
+- [x] Implement `accept(ArtifactVisitor visitor)` in `Weapon.java`
+- [x] Implement `accept(ArtifactVisitor visitor)` in `Potion.java`
+- [x] Implement `accept(ArtifactVisitor visitor)` in `Scroll.java`
+- [x] Implement `accept(ArtifactVisitor visitor)` in `Ring.java`
+- [x] Implement `accept(ArtifactVisitor visitor)` in `Armor.java`
+- [x] Implement `Inventory.accept(visitor)` to walk the list
+
+### Phase 3 Notes
+
+- Added `GoldAppraiser`, `EnchantmentScanner`, and `CurseDetector` in
+  `com.narxoz.rpg.visitor`.
+- Each visitor implements all five `visit(...)` overloads.
+- Each visitor prints distinct output and treats artifact types differently.
+- Each artifact now forwards double dispatch through `visitor.visit(this)`.
+- `Inventory.accept(visitor)` was already implemented and walks the artifact
+  list in order.
 
 ---
 
