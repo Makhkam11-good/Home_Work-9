@@ -11,6 +11,7 @@ import com.narxoz.rpg.vault.VaultRunResult;
 import com.narxoz.rpg.visitor.CurseDetector;
 import com.narxoz.rpg.visitor.EnchantmentScanner;
 import com.narxoz.rpg.visitor.GoldAppraiser;
+import com.narxoz.rpg.visitor.WeightCalculator;
 import java.util.List;
 
 /**
@@ -35,11 +36,13 @@ public class Main {
         GoldAppraiser goldAppraiser = new GoldAppraiser();
         EnchantmentScanner enchantmentScanner = new EnchantmentScanner();
         CurseDetector curseDetector = new CurseDetector();
+        WeightCalculator weightCalculator = new WeightCalculator();
 
         ChronomancerEngine engine = new ChronomancerEngine(
                 goldAppraiser,
                 enchantmentScanner,
-                curseDetector);
+                curseDetector,
+                weightCalculator);
         VaultRunResult result = engine.runVault(List.of(scout, mage));
 
         System.out.println();

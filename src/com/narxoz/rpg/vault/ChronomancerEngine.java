@@ -12,6 +12,7 @@ import com.narxoz.rpg.memento.Caretaker;
 import com.narxoz.rpg.visitor.CurseDetector;
 import com.narxoz.rpg.visitor.EnchantmentScanner;
 import com.narxoz.rpg.visitor.GoldAppraiser;
+import com.narxoz.rpg.visitor.WeightCalculator;
 import java.util.List;
 
 /**
@@ -22,17 +23,26 @@ public class ChronomancerEngine {
     private final GoldAppraiser goldAppraiser;
     private final EnchantmentScanner enchantmentScanner;
     private final CurseDetector curseDetector;
+    private final WeightCalculator weightCalculator;
 
     public ChronomancerEngine() {
-        this(new GoldAppraiser(), new EnchantmentScanner(), new CurseDetector());
+        this(new GoldAppraiser(), new EnchantmentScanner(), new CurseDetector(), new WeightCalculator());
     }
 
     public ChronomancerEngine(GoldAppraiser goldAppraiser,
                               EnchantmentScanner enchantmentScanner,
                               CurseDetector curseDetector) {
+        this(goldAppraiser, enchantmentScanner, curseDetector, new WeightCalculator());
+    }
+
+    public ChronomancerEngine(GoldAppraiser goldAppraiser,
+                              EnchantmentScanner enchantmentScanner,
+                              CurseDetector curseDetector,
+                              WeightCalculator weightCalculator) {
         this.goldAppraiser = goldAppraiser == null ? new GoldAppraiser() : goldAppraiser;
         this.enchantmentScanner = enchantmentScanner == null ? new EnchantmentScanner() : enchantmentScanner;
         this.curseDetector = curseDetector == null ? new CurseDetector() : curseDetector;
+        this.weightCalculator = weightCalculator == null ? new WeightCalculator() : weightCalculator;
     }
 
     /**
@@ -53,9 +63,11 @@ public class ChronomancerEngine {
         vaultInventory.accept(goldAppraiser);
         vaultInventory.accept(enchantmentScanner);
         vaultInventory.accept(curseDetector);
+        vaultInventory.accept(weightCalculator);
         System.out.println("--- Appraisal ends ---");
         System.out.println("Total resale estimate: " + goldAppraiser.getTotalValue() + " gold");
         System.out.println("Cursed artifacts found: " + curseDetector.getCursedCount());
+        System.out.println("Total carrying weight: " + weightCalculator.getTotalWeight() + " units");
 
         int mementosCreated = 0;
         int restoredCount = 0;

@@ -291,12 +291,25 @@ Open/closed visitor decision:
 
 ## Phase 8: Verify Output and Open/Closed Behavior
 
-- [ ] The output clearly shows when appraisal starts and ends
-- [ ] The output clearly shows when the snapshot is taken
-- [ ] The output clearly shows when the rewind happens
-- [ ] At least one visitor behaves differently for at least 2 artifact types
-- [ ] Add a 4th visitor without modifying any file under `artifact/`
-- [ ] Confirm the new visitor works through `Inventory.accept(visitor)`
+- [x] The output clearly shows when appraisal starts and ends
+- [x] The output clearly shows when the snapshot is taken
+- [x] The output clearly shows when the rewind happens
+- [x] At least one visitor behaves differently for at least 2 artifact types
+- [x] Add a 4th visitor without modifying any file under `artifact/`
+- [x] Confirm the new visitor works through `Inventory.accept(visitor)`
+
+### Phase 8 Notes
+
+- The console output includes `--- Appraisal starts ---` and
+  `--- Appraisal ends ---`.
+- The console output includes `--- Snapshot taken ---`.
+- The console output includes `--- Rewind begins ---` and
+  `--- Rewind ends ---`.
+- `CurseDetector`, `GoldAppraiser`, `EnchantmentScanner`, and
+  `WeightCalculator` all treat artifact types differently.
+- Added `WeightCalculator` as the 4th visitor in `com.narxoz.rpg.visitor`.
+- No files under `artifact/` were modified for the 4th visitor.
+- `WeightCalculator` runs through `vaultInventory.accept(weightCalculator)`.
 
 ---
 
