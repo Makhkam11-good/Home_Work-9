@@ -224,12 +224,22 @@ Open/closed visitor decision:
 
 ## Phase 5: Implement the Caretaker
 
-- [ ] Implement `Caretaker.save(HeroMemento memento)`
-- [ ] Implement `Caretaker.undo()`
-- [ ] Implement `Caretaker.peek()`
-- [ ] Implement `Caretaker.size()`
-- [ ] Verify `Caretaker` treats mementos as opaque values
-- [ ] Verify `Caretaker` never reads memento internals
+- [x] Implement `Caretaker.save(HeroMemento memento)`
+- [x] Implement `Caretaker.undo()`
+- [x] Implement `Caretaker.peek()`
+- [x] Implement `Caretaker.size()`
+- [x] Verify `Caretaker` treats mementos as opaque values
+- [x] Verify `Caretaker` never reads memento internals
+
+### Phase 5 Notes
+
+- `Caretaker` stores snapshots in a `Deque<HeroMemento>`.
+- `save(...)` pushes non-null snapshots onto the history stack.
+- `undo()` removes and returns the newest snapshot.
+- `peek()` returns the newest snapshot without removing it.
+- `size()` reports the number of stored snapshots.
+- `Caretaker` never calls getters on `HeroMemento`; it only stores and returns
+  opaque snapshot objects.
 
 ---
 
