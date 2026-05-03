@@ -6,11 +6,27 @@ Use this checklist to track your progress. Work through the phases in order - ea
 
 ## Phase 1: Understand the Patterns
 
-- [ ] Read `ASSIGNMENT.md` from start to finish
-- [ ] In your own words, write down what Visitor does and what Memento does
-- [ ] Identify why the two patterns are independent in this assignment
-- [ ] Read `FAQ.md` sections on Visitor and Memento
-- [ ] Review the provided source files in `artifact/`, `combatant/`, `memento/`, and `vault/`
+- [x] Read `ASSIGNMENT.md` from start to finish
+- [x] In your own words, write down what Visitor does and what Memento does
+- [x] Identify why the two patterns are independent in this assignment
+- [x] Read `FAQ.md` sections on Visitor and Memento
+- [x] Review the provided source files in `artifact/`, `combatant/`, `memento/`, and `vault/`
+
+### Phase 1 Notes
+
+Visitor lets the program add new operations for a fixed set of artifact types.
+The inventory only walks through artifacts, and each artifact calls the correct
+`visit(...)` overload through `accept(visitor)`. This avoids `instanceof` checks
+and keeps new appraisal behavior inside new visitor classes.
+
+Memento lets `Hero` save and restore its mutable state without exposing that
+state to the caretaker. `Hero` creates and reads `HeroMemento`, while
+`Caretaker` only stores snapshots and returns them later.
+
+The patterns are independent because Visitor works with the artifact hierarchy,
+while Memento works with hero state. `ChronomancerEngine` can use both during
+one demo run, but visitors do not need mementos and mementos do not need
+visitors.
 
 ---
 
