@@ -245,13 +245,25 @@ Open/closed visitor decision:
 
 ## Phase 6: Implement the Vault Engine
 
-- [ ] Fill in `ChronomancerEngine.runVault(...)`
-- [ ] Build a mixed `Inventory` with at least 5 artifacts
-- [ ] Apply at least 3 visitors through `Inventory.accept(visitor)`
-- [ ] Save a hero snapshot before the vault event
-- [ ] Trigger a state change or trap
-- [ ] Restore the hero from a saved memento
-- [ ] Return a meaningful `VaultRunResult`
+- [x] Fill in `ChronomancerEngine.runVault(...)`
+- [x] Build a mixed `Inventory` with at least 5 artifacts
+- [x] Apply at least 3 visitors through `Inventory.accept(visitor)`
+- [x] Save a hero snapshot before the vault event
+- [x] Trigger a state change or trap
+- [x] Restore the hero from a saved memento
+- [x] Return a meaningful `VaultRunResult`
+
+### Phase 6 Notes
+
+- `ChronomancerEngine.runVault(...)` now builds a five-item mixed inventory:
+  weapon, potion, scroll, ring, and armor.
+- The engine applies `GoldAppraiser`, `EnchantmentScanner`, and
+  `CurseDetector` through `Inventory.accept(visitor)`.
+- The lead hero is saved through `Hero.createMemento()` before the time crystal
+  trap changes HP, mana, gold, and inventory.
+- The rewind uses `Caretaker.undo()` and `Hero.restoreFromMemento(...)`.
+- The returned `VaultRunResult` reports appraised artifacts, created
+  mementos, and completed restores.
 
 ---
 
