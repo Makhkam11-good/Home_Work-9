@@ -269,12 +269,23 @@ Open/closed visitor decision:
 
 ## Phase 7: Wire Everything in Main.java
 
-- [ ] Create at least 2 heroes with different starting states
-- [ ] Instantiate your concrete visitors
-- [ ] Instantiate `ChronomancerEngine`
-- [ ] Run the vault demo
-- [ ] Print the final `VaultRunResult`
-- [ ] Make sure the banner prints without crashing
+- [x] Create at least 2 heroes with different starting states
+- [x] Instantiate your concrete visitors
+- [x] Instantiate `ChronomancerEngine`
+- [x] Run the vault demo
+- [x] Print the final `VaultRunResult`
+- [x] Make sure the banner prints without crashing
+
+### Phase 7 Notes
+
+- `Main.java` creates two heroes with different HP, mana, combat stats, gold,
+  and starting inventories.
+- `Main.java` instantiates `GoldAppraiser`, `EnchantmentScanner`, and
+  `CurseDetector`.
+- `ChronomancerEngine` can receive those concrete visitor instances through
+  its constructor.
+- The demo runs through `engine.runVault(...)` and prints the final
+  `VaultRunResult`.
 
 ---
 

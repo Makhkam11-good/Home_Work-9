@@ -19,6 +19,22 @@ import java.util.List;
  */
 public class ChronomancerEngine {
 
+    private final GoldAppraiser goldAppraiser;
+    private final EnchantmentScanner enchantmentScanner;
+    private final CurseDetector curseDetector;
+
+    public ChronomancerEngine() {
+        this(new GoldAppraiser(), new EnchantmentScanner(), new CurseDetector());
+    }
+
+    public ChronomancerEngine(GoldAppraiser goldAppraiser,
+                              EnchantmentScanner enchantmentScanner,
+                              CurseDetector curseDetector) {
+        this.goldAppraiser = goldAppraiser == null ? new GoldAppraiser() : goldAppraiser;
+        this.enchantmentScanner = enchantmentScanner == null ? new EnchantmentScanner() : enchantmentScanner;
+        this.curseDetector = curseDetector == null ? new CurseDetector() : curseDetector;
+    }
+
     /**
      * Runs the vault sequence for the supplied party.
      *
@@ -27,9 +43,6 @@ public class ChronomancerEngine {
      */
     public VaultRunResult runVault(List<Hero> party) {
         Inventory vaultInventory = buildVaultInventory();
-        GoldAppraiser goldAppraiser = new GoldAppraiser();
-        EnchantmentScanner enchantmentScanner = new EnchantmentScanner();
-        CurseDetector curseDetector = new CurseDetector();
 
         System.out.println();
         System.out.println("--- Chronomancer's Vault opens ---");
