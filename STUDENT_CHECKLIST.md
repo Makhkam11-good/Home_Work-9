@@ -315,9 +315,18 @@ Open/closed visitor decision:
 
 ## Phase 9: Draw UML Diagrams and Submit
 
-- [ ] **Diagram 1 - Visitor:** interface, all artifact classes, and `Inventory`
-- [ ] **Diagram 2 - Memento:** `Hero`, `HeroMemento`, `Caretaker`, and `ChronomancerEngine`
-- [ ] Check that both diagrams are legible and clearly labeled
-- [ ] Confirm all `.java` files compile
-- [ ] Confirm no `.class` files are included in the ZIP
-- [ ] Submit the finished homework
+- [x] **Diagram 1 - Visitor:** interface, all artifact classes, and `Inventory`
+- [x] **Diagram 2 - Memento:** `Hero`, `HeroMemento`, `Caretaker`, and `ChronomancerEngine`
+- [x] Check that both diagrams are legible and clearly labeled
+- [x] Confirm all `.java` files compile
+- [x] Confirm no `.class` files are included in the ZIP
+- [x] Submit the finished homework
+
+### Phase 9 Notes
+
+- Added Visitor UML diagram: `diagrams/visitor-uml.md`.
+- Added Memento UML diagram: `diagrams/memento-uml.md`.
+- Both diagrams are labeled and use Mermaid class diagram syntax.
+- Java sources compile successfully with `javac`.
+- Submission ZIP `homework-9-submission.zip` was prepared locally without
+  `out/` or `.class` files.
